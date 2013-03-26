@@ -1,4 +1,15 @@
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <stdlib.h>
+
+
+char message[] = "Hello";
+char buf[sizeof(message)];
+char path[1024];
+FILE *stream;
 
 int main()
 {
@@ -25,7 +36,21 @@ int main()
 		exit(2);	
 	}
 
-	//TODO: file resieving
+	send(sock, message, sizeof(message),0);
+	recv(sock, buf, sizeof(message),0);
+	printf("connection established \n");
+	printf("file path: ");
+
+	scanf("%s", path);
+	send(sock, path, sizeof(path),0);
+	recv(sock, buf, sizeof(buf),0);
+	
+	read(fsize);
+
+	if((stream = freopen("file.in", "w", stdout)) == NULL) {
+		printf("\n Write error \n");	
+		exit(3);
+	}
 
 	close(sock);
 
