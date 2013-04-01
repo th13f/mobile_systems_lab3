@@ -10,7 +10,7 @@
 #define ip_length  16
 #define out_length 100
 
-char hello_message[] = "Hello";
+char message[] = "Hello";
 char OK[] = "OK"; 
 char message[] = "message";
 char DONE[] = "___done___";
@@ -26,10 +26,10 @@ int main()
 	int sock;
 	int bytes_read;
 	struct sockaddr_in addr;
-
+	
 	//creating socket
 	sock = socket(AF_INET, SOCK_STREAM, 0);
-
+	
 	if(sock < 0)
 	{
 		perror("socket");
@@ -39,9 +39,9 @@ int main()
 	//setting server ip
 	addr.sin_family = AF_INET;
 	addr.sin_port = htons(3561);
-
+	
 	printf("server ip: ");	
-
+	
 	scanf("%s", serv_ip);
 	if(inet_pton(AF_INET, serv_ip, &(addr.sin_addr)) <=0){	
 		perror("server address:");	
@@ -54,8 +54,8 @@ int main()
 		exit(2);	
 	}
 
-	//exchanging hello_message
-	send(sock, hello_message, sizeof(hello_message),0);
+	//exchanging hello message
+	send(sock, message, sizeof(message),0);
 	if(recv(sock, answer, answer_length,0) <= 0){
 		perror("hello message");
 		exit(3);
@@ -82,7 +82,7 @@ int main()
 		printf("Created the file for output\n");
 		do{
 			bytes_read = recv(sock, buf, buf_length, 0);
-
+			
 			//checks if the server finished the transmition
 			if(strcmp(buf, DONE) == 0) {
 				printf("done...\n");
@@ -95,8 +95,8 @@ int main()
 				printf("File not found, terminating...\n");
 				exit(4);
 			}
-
-			//if it's not the case, write the hello_message to file
+		
+			//if it's not the case, write the message to file
 			if(fwrite(buf, 1, bytes_read, pFile) < bytes_read){
 				send(sock, message, sizeof(message), 0);
 				fclose(pFile);
@@ -111,8 +111,8 @@ int main()
 
 	fclose(pFile);
 	close(sock);
-
+	
 
 	return 0;
-
+	
 }
