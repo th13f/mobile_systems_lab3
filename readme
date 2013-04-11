@@ -1,0 +1,3 @@
+This lab consist from 2 parts: client and server.
+Client can connect with server and get something file he liked.
+Server should get file from his path and send to client. He could work with various count of clients.
